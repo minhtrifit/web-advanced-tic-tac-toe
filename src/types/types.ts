@@ -12,4 +12,10 @@ export interface SquarePropType {
   handleSetHistory: (arg0: string, arg1: string) => void;
   winner: string;
   setNextPlayer: Dispatch<SetStateAction<string>>;
+  moveTurn: History[];
+}
+
+export interface HistoryBoardProp {
+  historyList: History[];
+  handleMoveToTurn: (arg0: number) => void;
 }

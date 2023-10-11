@@ -16,13 +16,13 @@ const Board = () => {
   const [winner, setWinner] = useState<string>("");
   const [nextPlayer, setNextPlayer] = useState<string>("O");
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [moveTurn, setMoveTurn] = useState<History[]>([]);
 
   useMediaQuery("(max-width: 600px)", setIsMobile);
 
   useEffect(() => {
     if (history.length !== 0) {
       calculateWinner(history);
-      console.log(history);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,6 +77,10 @@ const Board = () => {
     }
   };
 
+  const handleMoveToTurn = (index: number) => {
+    setMoveTurn(history.slice(0, index + 1));
+  };
+
   return (
     <div className="game" style={{ margin: "100px 0" }}>
       <div
@@ -109,6 +113,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="2"
@@ -117,6 +122,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="3"
@@ -125,6 +131,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
           </div>
           <div style={{ display: "flex" }}>
@@ -135,6 +142,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="5"
@@ -143,6 +151,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="6"
@@ -151,6 +160,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
           </div>
           <div style={{ display: "flex" }}>
@@ -161,6 +171,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="8"
@@ -169,6 +180,7 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
             <Square
               id="9"
@@ -177,10 +189,14 @@ const Board = () => {
               handleSetHistory={handleSetHistory}
               winner={winner}
               setNextPlayer={setNextPlayer}
+              moveTurn={moveTurn}
             />
           </div>
         </div>
-        <HistoryBoard />
+        <HistoryBoard
+          historyList={history}
+          handleMoveToTurn={handleMoveToTurn}
+        />
       </div>
     </div>
   );

@@ -5,6 +5,9 @@ const HistoryBoard = (props: HistoryBoardProp) => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
+      <p style={{ textAlign: "center", fontSize: "20px", fontWeight: "bold" }}>
+        History Board
+      </p>
       {historyList.length !== 0 &&
         historyList.map((his, index) => {
           return (

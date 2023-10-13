@@ -10,7 +10,13 @@ import HistoryBoard from "./HistoryBoard";
 // Types
 import { History } from "../types/types";
 
+// Helper
+import { createMap, handleInitId } from "../helpers/helper";
+
 const Board = () => {
+  const mapRow: number[] = createMap(3);
+  const mapCol: number[] = createMap(3);
+
   const [step, setStep] = useState<number>(1);
   const [history, setHistory] = useState<History[]>([]);
   const [winner, setWinner] = useState<string>("");
@@ -29,16 +35,9 @@ const Board = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
 
-  useEffect(() => {
-    if (winnerResult.length !== 0) {
-      console.log(winnerResult);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [winnerResult]);
-
   const handleSetHistory = (id: string, value: string) => {
     const data: History = {
+      turn: (history.length + 1).toString(),
       id: id,
       value: value,
     };
@@ -144,8 +143,8 @@ const Board = () => {
           gap: 30,
         }}
       >
-        <div className="main-board">
-          <div style={{ display: "flex" }}>
+        <div id="main-board">
+          {/* <div id="row-1" style={{ display: "flex" }}>
             <Square
               id="1"
               step={step}
@@ -154,6 +153,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="2"
@@ -163,6 +163,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="3"
@@ -172,9 +173,10 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
           </div>
-          <div style={{ display: "flex" }}>
+          <div id="row-2" style={{ display: "flex" }}>
             <Square
               id="4"
               step={step}
@@ -183,6 +185,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="5"
@@ -192,6 +195,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="6"
@@ -201,9 +205,10 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
           </div>
-          <div style={{ display: "flex" }}>
+          <div id="row-3" style={{ display: "flex" }}>
             <Square
               id="7"
               step={step}
@@ -212,6 +217,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="8"
@@ -221,6 +227,7 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
             <Square
               id="9"
@@ -230,8 +237,38 @@ const Board = () => {
               winner={winner}
               setNextPlayer={setNextPlayer}
               moveTurn={moveTurn}
+              winnerResult={winnerResult}
             />
-          </div>
+          </div> */}
+          {mapRow.map((row) => {
+            return (
+              <div
+                key={`row-${row}`}
+                id={`row-${row}`}
+                style={{ display: "flex" }}
+              >
+                {mapCol.map((col) => {
+                  const targetId: any = handleInitId(row, col)?.toString();
+
+                  // console.log(targetId);
+
+                  return (
+                    <Square
+                      key={`row-col-${row * col}`}
+                      id={targetId !== undefined && targetId}
+                      step={step}
+                      setStep={setStep}
+                      handleSetHistory={handleSetHistory}
+                      winner={winner}
+                      setNextPlayer={setNextPlayer}
+                      moveTurn={moveTurn}
+                      winnerResult={winnerResult}
+                    />
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
         <HistoryBoard
           historyList={history}

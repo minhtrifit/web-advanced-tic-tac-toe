@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 
 export interface History {
+  turn: string;
   id: string;
   value: string;
 }
@@ -13,6 +14,7 @@ export interface SquarePropType {
   winner: string;
   setNextPlayer: Dispatch<SetStateAction<string>>;
   moveTurn: History[];
+  winnerResult: number[];
 }
 
 export interface HistoryBoardProp {

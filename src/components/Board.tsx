@@ -14,6 +14,7 @@ const Board = () => {
   const [step, setStep] = useState<number>(1);
   const [history, setHistory] = useState<History[]>([]);
   const [winner, setWinner] = useState<string>("");
+  const [winnerResult, setWinnerResult] = useState<number[]>([]);
   const [nextPlayer, setNextPlayer] = useState<string>("O");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [moveTurn, setMoveTurn] = useState<History[]>([]);
@@ -27,6 +28,14 @@ const Board = () => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [history]);
+
+  useEffect(() => {
+    if (winnerResult.length !== 0) {
+      console.log(winnerResult);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [winnerResult]);
 
   const handleSetHistory = (id: string, value: string) => {
     const data: History = {
@@ -49,7 +58,7 @@ const Board = () => {
     return false;
   };
 
-  const calculateWinner = (history: History[]) => {
+  const calculateWinner = (history: History[]): boolean => {
     const lines = [
       [1, 2, 3],
       [4, 5, 6],
@@ -70,11 +79,21 @@ const Board = () => {
           history[j]?.value === getHistoryValueById(history, b.toString()) &&
           history[j]?.value === getHistoryValueById(history, c.toString())
         ) {
+          setWinnerResult(lines[i]);
           setWinner(history[j].value);
           alert(`Winner: ${history[j].value}`);
+          return true;
+        }
+
+        if (j === 8) {
+          setWinner("Draw");
+          alert("Draw");
+          return false;
         }
       }
     }
+
+    return false;
   };
 
   const handleMoveToTurn = (index: number) => {
@@ -85,11 +104,32 @@ const Board = () => {
     <div className="game" style={{ margin: "100px 0" }}>
       <div
         className="leader-board"
-        style={{ border: "1px solid #000", padding: 10, width: "100%" }}
+        style={{
+          border: "3px solid #a87625",
+          borderRadius: 5,
+          width: "100%",
+          minHeight: "100px",
+          padding: "20px",
+          backgroundColor: "#d4bd39",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
       >
-        <p style={{ fontSize: "20px" }}>Turn: {step}</p>
-        <p style={{ fontSize: "20px" }}>Next player: {nextPlayer}</p>
-        <p style={{ fontSize: "20px", fontWeight: "bold", color: "red" }}>
+        <p style={{ fontSize: "20px", backgroundColor: "#d4bd39" }}>
+          You are at move #{step}
+        </p>
+        <p style={{ fontSize: "20px", backgroundColor: "#d4bd39" }}>
+          Next player: {nextPlayer}
+        </p>
+        <p
+          style={{
+            fontSize: "20px",
+            backgroundColor: "#d4bd39",
+            fontWeight: "bold",
+            color: "green",
+          }}
+        >
           Winner: {winner}
         </p>
       </div>
@@ -101,7 +141,7 @@ const Board = () => {
           display: "flex",
           flexDirection: !isMobile ? "row" : "column",
           alignItems: "flex-start",
-          gap: 10,
+          gap: 30,
         }}
       >
         <div className="main-board">

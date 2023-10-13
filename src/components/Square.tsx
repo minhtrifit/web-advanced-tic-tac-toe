@@ -35,13 +35,19 @@ const Square = (props: SquarePropType) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [moveTurn]);
 
+  useEffect(() => {
+    if (moveTurn.length !== 0) {
+      console.log(moveTurn[moveTurn.length - 1].value);
+    }
+  }, [moveTurn]);
+
   const handleSquareClick = (setValue: any) => {
     if (winner === "") {
-      if (step % 2 != 0) {
+      if (step % 2 != 0 && value === "") {
         setValue("X");
         handleSetHistory(id, "X");
         setNextPlayer("X");
-      } else {
+      } else if (step % 2 === 0 && value === "") {
         setValue("O");
         handleSetHistory(id, "O");
         setNextPlayer("O");
